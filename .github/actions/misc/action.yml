@@ -29,4 +29,14 @@ runs:
           CONFIG_TMPFS_POSIX_ACL=y
           CONFIG_KALLSYMS=y
           CONFIG_KALLSYMS_ALL=y
+          # rtwo fork: Motorola's FCM target-level 7 (5.15.41) kernel block
+          # requires these built in (Wild/GKI build them as modules, which
+          # fails VINTF verifyWithoutAvb -> "internal problem" dialog).
+          CONFIG_L2TP=y
+          CONFIG_PPP=y
+          CONFIG_PPPOL2TP=y
+          CONFIG_PPP_BSDCOMP=y
+          CONFIG_PPP_DEFLATE=y
+          CONFIG_PPP_MPPE=y
+          CONFIG_PPTP=y
           
