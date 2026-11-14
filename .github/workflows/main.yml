@@ -252,6 +252,12 @@ jobs:
           # 10_enable_susfs_for_ksu was dry-run against this exact tree when the
           # pin moved and still applies 30/30 files with no rejects.
           PIN_KERNELSU="10efe6648aa52e0497bbd686f940832ad05848cf"
+          # KernelSU-Next (pershoot fork, dev-susfs): r22 pair commit
+          # (d21e0a6, 2026-10-19) built and released against SUSFS f3ceb5d.
+          # Tip is mid-sync with susfs4ksu and fails to compile (dispatch.c
+          # references CMD_SUSFS_SET_SUS_PATH_UID_FILTER before the SUSFS
+          # branch gained it), so both halves are pinned together here.
+          PIN_NEXT="d21e0a66c887ae4bc75b7c9f83e41761819ec09a"
           # BakaSU: official main tip (d5e9e025, 2026-10-24, "kernel: limit code
           # generators on CONFIG_KSU (#639)"). Still tracks latest despite the
           # fa12ffd fake_state removal - the 5 older branches
@@ -365,10 +371,7 @@ jobs:
           KOWSU_COMMIT="$(resolve_sha https://github.com/KOWX712/KernelSU.git refs/heads/master)"
           emit kowsu_commit "$KOWSU_COMMIT"
           if [ "$SCHED_SUSFS" = "true" ]; then
-            # rtwo fork: keep KernelSU-Next on the branch tip. The SUSFS patch
-            # is always resolved at tip for this flavor, so pinning KSU-Next
-            # alone leaves susfs.c helpers unreferenced (-Werror=unused-function).
-            NEXT_COMMIT="$(resolve_sha https://github.com/pershoot/KernelSU-Next.git refs/heads/dev-susfs)"
+            NEXT_COMMIT="$(pick "$PIN_NEXT" https://github.com/pershoot/KernelSU-Next.git refs/heads/dev-susfs)"
           else
             NEXT_COMMIT="$(resolve_sha https://github.com/KernelSU-Next/KernelSU-Next.git refs/heads/dev)"
           fi
