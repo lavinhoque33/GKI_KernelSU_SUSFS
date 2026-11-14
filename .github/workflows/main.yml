@@ -365,9 +365,10 @@ jobs:
           KOWSU_COMMIT="$(resolve_sha https://github.com/KOWX712/KernelSU.git refs/heads/master)"
           emit kowsu_commit "$KOWSU_COMMIT"
           if [ "$SCHED_SUSFS" = "true" ]; then
-            # rtwo fork: pin to the exact commit r22 shipped so the kernel side
-            # stays matched with the already-staged ksud (uapi 6, 33442).
-            NEXT_COMMIT="d21e0a66c887ae4bc75b7c9f83e41761819ec09a"
+            # rtwo fork: keep KernelSU-Next on the branch tip. The SUSFS patch
+            # is always resolved at tip for this flavor, so pinning KSU-Next
+            # alone leaves susfs.c helpers unreferenced (-Werror=unused-function).
+            NEXT_COMMIT="$(resolve_sha https://github.com/pershoot/KernelSU-Next.git refs/heads/dev-susfs)"
           else
             NEXT_COMMIT="$(resolve_sha https://github.com/KernelSU-Next/KernelSU-Next.git refs/heads/dev)"
           fi
