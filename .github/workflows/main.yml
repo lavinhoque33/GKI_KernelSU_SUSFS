@@ -2041,3 +2041,5 @@ jobs:
               echo "- failed uploads: $failed (see job log)"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+# rtwo: register workflow
